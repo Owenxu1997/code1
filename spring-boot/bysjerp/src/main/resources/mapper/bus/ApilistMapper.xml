@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjj.bysjerp.bus.mapper.ApilistMapper">
+
+
+    <select id="getAllApi" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist
+    </select>
+
+    <select id="getAllApiReviewed" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where reviewed = 1;
+    </select>
+
+    <select id="getApiById" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where apiId = #{id};
+    </select>
+
+    <insert id="addApi" parameterType="com.tjj.bysjerp.bus.domain.Apilist">
+        insert into api.bus_apilist (apiName, url, apiType, param1Key, param1Value, param2Key, param2Value, description, tested, reviewed, uid)
+        values(#{apiName}, #{url}, #{apiType}, #{param1Key}, #{param1Value}, #{param2Key}, #{param2Value},#{description}, 0, 0, #{uid});
+    </insert>
+
+    <!--    待测试API-->
+    <select id="getTest" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where tested = 0 ;
+    </select>
+
+    <!--    待审核API-->
+    <select id="getReview" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where reviewed = 0 ;
+    </select>
+
+    <select id="getPersonalApi" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where uid = #{id} ;
+    </select>
+
+    <select id="getPersonalReview" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where uid = #{userId} AND reviewed = 0;
+    </select>
+
+    <select id="getPersonalReviewed" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where uid = #{userId} AND reviewed = 1;
+    </select>
+
+    <select id="getPersonalTest" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where uid = #{userId} AND tested = 0;
+    </select>
+
+    <select id="getPersonalTested" resultType="com.tjj.bysjerp.bus.domain.Apilist">
+        select * from api.bus_apilist where uid = #{userId} AND tested = 1;
+    </select>
+    
+    <update id="reviewPassed" >
+        update api.bus_apilist set reviewed = 1 where apiId = #{id};
+    </update>
+
+    <update id="testPassed" >
+        update api.bus_apilist set tested = 1 where apiId = #{id};
+    </update>
+
+</mapper>

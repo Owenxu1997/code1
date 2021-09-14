@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <file url="file://$PROJECT_DIR$/MyBatis-Plus-CodeGenerator/src/main/java/CodeGenerator1.java" />
+    </excludeFromCompile>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mybatisplus_generator" />
+        <module name="bysjerp" />
+        <module name="MyBatis-Plus-CodeGenerator" />
+        <module name="layuicms-md" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bysjerp" target="1.8" />
+      <module name="layuicms-md" target="1.8" />
+      <module name="MyBatis-Plus-CodeGenerator" target="1.8" />
+      <module name="spring-boot" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MyBatis-Plus-CodeGenerator" options="-parameters" />
+      <module name="bysjerp" options="-parameters" />
+      <module name="layuicms-md" options="-parameters" />
+      <module name="spring-boot" options="-parameters" />
+    </option>
+  </component>
+</project>

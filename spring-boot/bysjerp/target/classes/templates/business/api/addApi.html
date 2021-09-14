@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加api</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form layui-row layui-col-space10" action="/testApi/addApi" method="post">
+    <div class="layui-col-md9 layui-col-xs12">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md9 layui-col-xs7">
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">API地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="url" placeholder="请输入API地址">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">API类型</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="apiType" placeholder="请输入API类型">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">参数1键</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="param1Key" placeholder="请输入参数1键">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">参数1值</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="param1Value" placeholder="请输入参数1值">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">参数1值类型</label>
+                    <div class="layui-input-block newsStatus">
+                        <select name="type" lay-verify="required">
+                            <option value="0">Integer</option>
+                            <option value="1">Double</option>
+                            <option value="1">Float</option>
+                            <option value="1">String</option>
+                            <option value="1">Boolean</option>
+                            <option value="1">Date</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">参数2键</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="param2Key" placeholder="请输入参数2键">
+                    </div>
+                </div>
+                <div class="layui-form-item magt3">
+                    <label class="layui-form-label">参数2值</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input newsName" lay-verify="newsName" name="param2Value" placeholder="请输入参数2值">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">参数2值类型</label>
+                    <div class="layui-input-block newsStatus">
+                        <select name="type" lay-verify="required">
+                            <option value="0">Integer</option>
+                            <option value="1">Double</option>
+                            <option value="1">Float</option>
+                            <option value="1">String</option>
+                            <option value="1">Boolean</option>
+                            <option value="1">Date</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md4 layui-col-xs12">
+        <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
+        <div class="border">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i> 状　态</label>
+                <div class="layui-input-block newsStatus">
+                    <select name="status" lay-verify="required">
+                        <option value="0">保存草稿</option>
+                        <option value="1">等待审核</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><i class="layui-icon">&#xe609;</i> 发　布</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="release" title="立即发布" lay-skin="primary" lay-filter="release" checked />
+                    <input type="radio" name="release" title="定时发布" lay-skin="primary" lay-filter="release" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-hide releaseDate">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="release" placeholder="请选择日期和时间" readonly />
+                </div>
+            </div>
+
+
+            <hr class="layui-bg-gray" />
+            <div class="layui-right">
+                <input type="submit" value="发布" class="layui-btn layui-btn-sm" lay-filter="addApi" lay-submit>
+                <!--				<button class="layui-btn" lay-submit lay-filter="addApi">fabu</button>-->
+                <!--				<a class="layui-btn layui-btn-primary layui-btn-sm" lay-filter="look" lay-submit>预览</a>-->
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="/resources/layui/layui.js"></script>
+
+<script type="javascript">
+    layui.use(['form','layer','laydate','table','laytpl'],function(){
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laydate = layui.laydate,
+            laytpl = layui.laytpl,
+            table = layui.table;
+
+        //新闻列表
+        var tableIns = table.render({
+            elem: '#apiList',
+            url : '/testApi/getAllApi',
+            cellMinWidth : 95,
+            page : true,
+            height : "full-125",
+            limit : 10,
+            limits : [10,15,20,25],
+            id : "newsListTable",
+            cols : [[
+                // {type: "checkbox", fixed:"left", width:50},
+                {field: 'apiId', title: 'ID', width:60, align:"center"},
+                {field: 'url', title: 'API地址', width:350},
+                {field: 'apiType', title: 'API类型', align:'center'},
+                {field: 'uid', title: 'API所有者', align:'center'},
+                {field: 'reviewed', title: 'API审核状态',  align:'center',templet:"#reviewStatus"},
+                {field: 'tested', title: 'API测试状态',  align:'center',templet:"#testStatus"},
+            ]]
+        });
+
+        //是否置顶
+        form.on('switch(newsTop)', function(data){
+            var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
+            setTimeout(function(){
+                layer.close(index);
+                if(data.elem.checked){
+                    layer.msg("置顶成功！");
+                }else{
+                    layer.msg("取消置顶成功！");
+                }
+            },500);
+        })
+
+        //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
+        $(".search_btn").on("click",function(){
+            if($(".searchVal").val() != ''){
+                table.reload("apiList",{
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        key: $(".searchVal").val()  //搜索的关键字
+                    }
+                })
+            }else{
+                layer.msg("请输入搜索的内容");
+            }
+        });
+
+        //添加API
+        function addApi(edit){
+            var index = layui.layer.open({
+                title : "添加API",
+                type : 2,
+                content : "/bus/addApi",
+                success : function(layero, index){
+                    var body = layui.layer.getChildFrame('body', index);
+                    if(edit){
+                        body.find(".newsName").val(edit.newsName);
+                        body.find(".abstract").val(edit.abstract);
+                        body.find(".thumbImg").attr("src",edit.newsImg);
+                        body.find("#news_content").val(edit.content);
+                        body.find(".newsStatus select").val(edit.newsStatus);
+                        body.find(".openness input[name='openness'][title='"+edit.newsLook+"']").prop("checked","checked");
+                        body.find(".newsTop input[name='newsTop']").prop("checked",edit.newsTop);
+                        form.render();
+                    }
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处返回API列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(index);
+            })
+        }
+        $(".addApi_btn").click(function(){
+            addApi();
+        })
+
+        //列表操作
+        table.on('tool(newsList)', function(obj){
+            var layEvent = obj.event,
+                data = obj.data;
+
+            if(layEvent === 'edit'){ //编辑
+                addNews(data);
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('确定删除此文章？',{icon:3, title:'提示信息'},function(index){
+                    // $.get("删除文章接口",{
+                    //     newsId : data.newsId  //将需要删除的newsId作为参数传入
+                    // },function(data){
+                    tableIns.reload();
+                    layer.close(index);
+                    // })
+                });
+            } else if(layEvent === 'look'){ //预览
+                layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问")
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

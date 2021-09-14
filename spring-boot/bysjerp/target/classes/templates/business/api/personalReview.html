@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人API审核</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/resources/css/public.css" media="all" />
+
+</head>
+
+<!--class="childrenBody"可加可不加，样式在public.css里面-->
+<body class="childrenBody">
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>待审核API</legend>
+</fieldset>
+
+
+
+<!--数据表格开始-->
+<div>
+    <table class="layui-hide" id="apiTable" lay-filter="apiTable"></table>
+
+<!--    <div id="apiToolBar" style="display: none">-->
+<!--        <button type="button" lay-event="add" class="layui-btn layui-btn-sm "><span class="layui-icon layui-icon-add-1"></span>添加API</button>-->
+<!--        <button type="button" lay-event="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger "><span class="layui-icon layui-icon-delete"></span>批量删除</button>-->
+<!--    </div>-->
+
+<!--    <div id="apiRowBar" style="display: none">-->
+<!--        <button type="button" lay-event="update" class="layui-btn layui-btn-normal layui-btn-xs" ><span class="layui-icon layui-icon-edit"></span>更新</button>-->
+<!--        <button type="button" lay-event="delete" class="layui-btn layui-btn-warm layui-btn-xs" ><span class="layui-icon layui-icon-delete"></span>删除</button>-->
+<!--    </div>-->
+
+    <div id="apiRowBar" style="display: none">
+        <button type="button" lay-event="about" class="layui-btn layui-btn-normal layui-btn-xs"><span class="layui-icon layui-icon-about"></span>详情</button>
+    </div>
+
+</div>
+<!--数据表格结束-->
+
+<!--详情弹出层-->
+<div id="about" style="display: none;padding: 15px">
+
+    <form action="" method="post" class="layui-form" lay-filter="reviewForm" id="reviewForm">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>基本信息</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">API ID:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="apiId" id="apiId"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">API名称:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="apiName" id="apiName"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">API所有者:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="uid" id="uid"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">API类型:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="apiType" id="apiType"></span>
+                </div>
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>参数信息</legend>
+        </fieldset>
+        <div class="layui-form-item" id="UrlDiv">
+            <div class="layui-inline">
+                <label class="layui-form-label">API地址:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="url" id="apiUrl"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" id="param1Div">
+            <div class="layui-inline">
+                <label class="layui-form-label">参数1:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="param1Key" id="param1Key"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">参数1值:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="param1Value" id="param1Value"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" id="param2Div">
+            <div class="layui-inline">
+                <label class="layui-form-label">参数2:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="param2Key" id="param2Key"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">参数2值:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="param2Value" id="param2Value"></span>
+                </div>
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>API状态</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">测试状态:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="tested" id="tested"></span>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">审核状态:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="reviewed" id="reviewed"></span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">API描述:</label>
+                <div style="float: left; padding: 9px;font-weight:400;line-height:20px;">
+                    <span name="description" id="description"></span>
+                </div>
+            </div>
+        </div>
+        <!--        <button type="submit" class="layui-btn">通过</button>-->
+    </form>
+
+</div>
+<!--详情弹出层结束-->
+
+
+<!--显示审核与测试状态-->
+<script type="text/html" id="reviewStatus">
+    {{#  if(d.reviewed == "1"){ }}
+    <span class="layui-blue">审核通过</span>
+    {{#  } else if(d.reviewed == "0"){ }}
+    <span class="layui-red">等待审核</span>
+    {{#  }}}
+</script>
+<script type="text/html" id="testStatus">
+    {{#  if(d.tested == "1"){ }}
+    <span class="layui-blue">测试通过</span>
+    {{#  } else if(d.tested == "0"){ }}
+    <span class="layui-red">等待测试</span>
+    {{#  }}}
+</script>
+
+
+<script type="text/javascript" src="/resources/layui/layui.js"></script>
+
+<script type="text/javascript">
+    var tableIns;
+    layui.use(['jquery','form','table','layer'],function(){
+        var $=layui.jquery;
+        var form=layui.form;
+        var table=layui.table;
+        var layer=layui.layer;
+
+        //加载数据进表格
+        tableIns=table.render({
+            elem: '#apiTable'
+            // ,url:'/api/loadAllApi'
+            ,url:'/personal/getPersonalReview'
+            ,toolbar: '#apiToolBar' //开启头部工具栏，并为其绑定左侧模板
+            ,title: 'API待审核数据表'
+            ,height:'full-220'
+            ,limit:10
+            ,page: true
+            ,cols: [ [
+                {field: 'apiId', title: 'ID', width:60, align:"center"},
+                {field: 'apiName', title: 'API名称', width:150, align:"center"},
+                {field: 'url', title: 'API地址', width:350},
+                {field: 'apiType', title: 'API类型', align:'center'},
+                {field: 'uid', title: 'API所有者', align:'center'},
+                {field: 'reviewed', title: 'API审核状态',  align:'center',templet:"#reviewStatus"},
+                {field: 'tested', title: 'API测试状态',  align:'center',templet:"#testStatus"},
+                {fixed: 'right', title:'操作', toolbar: '#apiRowBar',align:'center'},
+            ]]
+            ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+                if(res.data.length==0&&curr!=1){
+                    tableIns.reload({
+                        page:{
+                            curr:(curr-1)
+                        }
+                    });
+                }
+            }
+        });
+
+        //模糊查询
+        form.on("submit(doSearch)",function (data) {
+            tableIns.reload({
+                where:data.field,
+                page: {
+                    curr:1
+                }
+            });
+            return false;
+        });
+
+        //https://www.layui.com/doc/modules/table.html#ontoolbar参考
+        //监听工具条的事件
+        table.on("toolbar(apiTable)",function (obj) {
+            switch(obj.event){
+                case 'add':
+                    addOpen();
+                    break;
+            };
+        });
+
+        //监听行工具条的事件
+        table.on("tool(apiTable)",function (obj) {
+            var data = obj.data; //获得当前行数据
+            switch(obj.event){
+                case 'update':
+                    updateApi(data);
+                    break;
+                case 'delete':
+                    deleteApi(data);
+                    break;
+            };
+        });
+
+        var mainIndex;
+        var url;
+        //打开添加的弹出层
+        function addOpen() {
+            mainIndex = layer.open({
+                type:1,
+                content:$("#addAndUpdateDiv"),
+                area:['800px','560px'],
+                title:'添加客户',
+                skin: 'layui-layer-molv',
+                success:function () {
+                    $("#dataForm")[0].reset();
+                    $('#pid').val("");
+                    url="/api/addApi";
+                    //弹出层成功后初始化排序码
+                    $.get("/api/loadApiMaxOrderNum",function (res) {
+                        $("#ordernum").val(res.value);
+                    })
+                }
+            });
+        }
+
+        //打开修改的弹出层
+        function updateApi(data) {
+            mainIndex = layer.open({
+                type:1,
+                content:$("#addAndUpdateDiv"),
+                area:['800px','560px'],
+                title:'修改客户',
+                skin: 'layui-layer-lan',
+                success:function () {
+                    $("#dataForm")[0].reset();
+                    //加载（装载）新数据
+                    form.val("dataForm",data);
+                    //选中之前添加的上级客户 nodeId=data.pid
+                    dtree.dataInit("apiTree", data.pid);
+                    // 第二个参数如果不填，则会自动返显当前选中的数据
+                    dtree.selectVal("apiTree");
+                    url="/api/updateApi";
+                }
+            });
+        }
+        //提交添加和修改
+        form.on("submit(doSubmit)",function (data) {
+            $.post(url,data.field,function (res) {
+                if (res.code==200){
+                    tableIns.reload();
+                    //菜单树跟客户没有关系，无需刷新
+                    // selectTree.reload(); //当前
+                    // window.parent.left.apiTree.reload(); //左边
+                }
+                layer.msg(res.msg);
+                layer.close(mainIndex);
+            })
+            return false;
+        })
+
+        //删除
+        function deleteApi(data) {
+            layer.confirm('您确定要删除[' + data.title + ']该客户？', {icon: 3, title: '提示'}, function (index) {
+                //do something
+                $.post("/api/deleteApi", {id: data.id}, function (res) {
+                    if (res.code == 200) {
+                        tableIns.reload();
+                    }
+                    layer.msg(res.msg);
+                })
+                layer.close(index);
+            });
+        }
+
+        //监听工具条
+        table.on("tool(apiTable)",function (obj) {
+            var data = obj.data;//当前行数据
+            switch(obj.event) {
+                case 'about':
+                    aboutApi(data);
+                    break;
+            };
+        });
+        //API详情弹出
+        function aboutApi(data) {
+            mainIndex = layer.open({
+                type:1,
+                content:$("#about"),
+                area:['800px','560px'],
+                title:'API详情',
+                skin:'layui-layer-molv',
+                success:function() {
+                    $("#apiId").html(data.apiId);
+                    $("#apiName").html(data.apiName);
+                    $("#apiUrl").html(data.url);
+                    $("#apiType").html(data.apiType);
+                    $("#uid").html(data.uid);
+                    $("#tested").html(data.tested);
+                    $("#reviewed").html(data.reviewed);
+                    $("#param1Key").html(data.param1Key);
+                    $("#param1Value").html(data.param1Value);
+                    $("#param2Key").html(data.param2Key);
+                    $("#param2Value").html(data.param2Value);
+                    $("#description").html(data.description);
+                    if(data.tested = 1) {
+
+                    }
+                }
+            });
+        }
+
+
+    });
+
+
+</script>
+</body>
+
+</html>
